@@ -131,7 +131,8 @@
     //
     _pathCenterButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.centerImage.size.width, self.centerImage.size.height)];
     [_pathCenterButton setImage:self.centerImage forState:UIControlStateNormal];
-    [_pathCenterButton setImage:self.centerHighlightedImage forState:UIControlStateHighlighted];
+    [_pathCenterButton setImage:self.centerHighlightedImage forState:UIControlStateSelected];
+   // [_pathCenterButton setImage:self.centerHighlightedImage forState:UIControlStateHighlighted];
     [_pathCenterButton addTarget:self action:@selector(centerButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     _pathCenterButton.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     [self addSubview:_pathCenterButton];
@@ -306,6 +307,7 @@
 #pragma mark - Center Button Delegate
 
 - (void)centerButtonTapped {
+    _pathCenterButton.selected = !_pathCenterButton.selected;
     self.isBloom? [self pathCenterButtonFold] : [self pathCenterButtonBloom];
 }
 
@@ -414,7 +416,7 @@
 }
 
 - (void)resizeToFoldedFrame {
-    
+    self.pathCenterButton.selected = NO;
     if (self.allowCenterButtonRotation) {
         [UIView animateWithDuration:0.0618f * 3
                               delay:0.0618f * 2
@@ -660,7 +662,7 @@
 #pragma mark - DCPathButton Item Delegate
 
 - (void)itemButtonTapped:(DCPathItemButton *)itemButton {
-    
+    _pathCenterButton.selected = NO;
     if ([_delegate respondsToSelector:@selector(pathButton:clickItemButtonAtIndex:)]) {
         
         DCPathItemButton *selectedButton = self.itemButtons[itemButton.index];
